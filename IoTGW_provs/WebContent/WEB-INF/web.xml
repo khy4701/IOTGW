@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>api</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  	<servlet>
+		<servlet-name>RESTful Application</servlet-name>
+ 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<!-- <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  -->
+    <init-param>
+        <param-name>com.sun.jersey.config.feature.Redirect</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
+        <param-value>/views/</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
+        <param-value>/(images|css|jsp)/.*</param-value>
+    </init-param>
+	<init-param>
+	    <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+	    <param-value>true</param-value>
+	</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RESTful Application</servlet-name>
+		<url-pattern>/api/v1/kt/*</url-pattern>
+	</servlet-mapping>
+	
+    <context-param>
+        <param-name>log4j-config-location</param-name>
+        <param-value>WEB-INF/lib/log4j.properties</param-value>
+    </context-param>
+    
+	<resource-ref>
+		<description>postgreSQL Datasource example</description>
+		<res-ref-name>jdbc/postgres</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	
+	<env-entry>
+ 	  <env-entry-name>PLASM_URL_PROPERTIES</env-entry-name>
+	  <env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<listener>
+	    <listener-class>com.kt.restful.scheduler.ClientScheduler</listener-class>
+	</listener>	
+	<!-- 
+	<listener>
+	    <listener-class>com.kt.restful.scheduler.ClientScheduler</listener-class>
+	</listener>
+	 -->
+</web-app>
