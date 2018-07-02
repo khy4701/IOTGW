@@ -3,6 +3,8 @@ package com.kt.net;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.kt.restful.constants.IoTProperty;
+import com.kt.restful.model.ProvifMsgType;
 import com.kt.restful.model.StatisticsModel;
 
 
@@ -10,6 +12,9 @@ public class StatisticsManager implements Receiver{
 	private static StatisticsManager statisticsManager;
 	
 	private static ConcurrentHashMap<String, StatisticsModel> statisticsHash;
+	private static ConcurrentHashMap<String, StatisticsModel> statisticsHash_BSS;
+	private static ConcurrentHashMap<String, StatisticsModel> statisticsHash_CUBIC;
+
 	
 	public static void main(String[] args) {
 		new StatisticsManager();
@@ -28,6 +33,13 @@ public class StatisticsManager implements Receiver{
 	private StatisticsManager() {
 		statisticsHash = new ConcurrentHashMap<String, StatisticsModel>();
 		statisticsHash.clear();
+		
+		statisticsHash_BSS = new ConcurrentHashMap<String, StatisticsModel>();
+		statisticsHash_BSS.clear();
+		
+		statisticsHash_CUBIC = new ConcurrentHashMap<String, StatisticsModel>();
+		statisticsHash_CUBIC.clear();
+
 	}
 	
 	public static StatisticsManager getInstance() {
@@ -38,11 +50,11 @@ public class StatisticsManager implements Receiver{
 		return statisticsManager;
 	}
 	
-	public synchronized static void sendCommand(ConcurrentHashMap<String, StatisticsModel> statistics) {
+	public synchronized static void sendCommand(ConcurrentHashMap<String, StatisticsModel> statistics, int type) {
 
-		if(StatisticsConnector.getInstance().sendMessage(statistics)) {
-			synchronized (statisticsHash) {
-				statisticsHash.clear();
+		if(StatisticsConnector.getInstance().sendMessage(statistics, type)) {
+			synchronized (statistics) {
+				statistics.clear();
 			}
 		}
 	}
@@ -54,22 +66,66 @@ public class StatisticsManager implements Receiver{
 //	}
 	
 	public synchronized void sendStatitics() {
-		synchronized (statisticsHash) {
-			sendCommand(statisticsHash);
+		
+		String appName = IoTProperty.getPropPath("sys_name");
+		
+		// PROVC1 -> IUDR : Jasper
+		// PROVC2 -> IUDR : Cubic(inquiry)
+		if (appName.equals("provc1") || appName.equals("provc2") ) {
+			// IUDR
+			// MSGID_IUDR_STATISTICS_REPORT : 104
+			synchronized (statisticsHash) {
+				sendCommand(statisticsHash, 104);
+			}
+		}
+
+		// BSS-IOT
+		// PROVC1 -> BSS  : Jasper
+		// PROVC2 -> BSS  : Cubic
+		// MSGID_BSS_IOT_STATISTICS_REPORT : 109
+		if (appName.equals("provc1") || appName.equals("provc2")) {
+			synchronized (statisticsHash_BSS) {
+				sendCommand(statisticsHash_BSS, 109);
+			}
+		}
+		
+		// CUBIC
+		// MSGID_BSS_IOT_STATISTICS_REPORT : 110
+		if (appName.equals("provc3")) {
+			synchronized (statisticsHash_CUBIC) {
+				sendCommand(statisticsHash_CUBIC, 110);
+			}
 		}
 	}
 	
 	public synchronized static ConcurrentHashMap<String, StatisticsModel> getStatisticsHash() {
 		return statisticsHash;
 	}
+	
+	public synchronized static ConcurrentHashMap<String, StatisticsModel> getStatistics_BSSHash() {
+		return statisticsHash_BSS;
+	}
+	
+	public synchronized static ConcurrentHashMap<String, StatisticsModel> getStatistics_CUBICHash() {
+		return statisticsHash_CUBIC;
+	}
 
-	public static void setStatisticsHash(ConcurrentHashMap<String, StatisticsModel> statisticsHash) {
-		StatisticsManager.statisticsHash = statisticsHash;
+
+
+	public static void setStatisticsHash(ConcurrentHashMap<String, StatisticsModel> statisticsHash, int type) {
+		if (type == 0)
+			StatisticsManager.statisticsHash = statisticsHash;
+		
+		if (type == 1)
+			StatisticsManager.statisticsHash_BSS = statisticsHash;
+		
+		if (type == 2)
+			StatisticsManager.statisticsHash_CUBIC = statisticsHash;
 	}
 
 	@Override
 	public void receiveMessage(String apiName, String seqNo, int rspCode, String imsi, String msisdn, String ipAddress,
-			String body) {
+			String body, ProvifMsgType pmt) {
 	}
 }
 

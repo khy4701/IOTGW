@@ -147,7 +147,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.ADD_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.ADD_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -281,7 +281,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.ADD_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.ADD_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -377,7 +377,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.MOD_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.MOD_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -489,7 +489,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.MOD_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.MOD_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -586,7 +586,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.UPT_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.UPT_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -696,7 +696,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.UPT_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.UPT_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -788,7 +788,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.DEL_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.DEL_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -894,7 +894,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.DEL_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.DEL_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -985,7 +985,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SUBS_DETAIL.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SUBS_DETAIL.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -1092,7 +1092,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SUBS_DETAIL.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SUBS_DETAIL.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -1180,7 +1180,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -1282,7 +1282,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -1383,7 +1383,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.REM_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.REM_HSS_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -1497,7 +1497,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.REM_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.REM_HSS_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -1583,7 +1583,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_PDP_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_PDP_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -1686,7 +1686,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_PDP_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_PDP_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -1772,7 +1772,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_PDN_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_PDN_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -1874,7 +1874,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_PDN_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_PDN_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -1961,7 +1961,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_ROAM_REST_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_ROAM_REST_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -2064,7 +2064,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_ROAM_REST_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_ROAM_REST_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -2151,7 +2151,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_LTE_ROAM_REST_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_LTE_ROAM_REST_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -2254,7 +2254,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_LTE_ROAM_REST_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_LTE_ROAM_REST_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -2344,7 +2344,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_NETWORK_BAR.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_NETWORK_BAR.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -2451,7 +2451,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_NETWORK_BAR.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_NETWORK_BAR.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -2541,7 +2541,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_NETWORK_UNBAR.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_NETWORK_UNBAR.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -2647,7 +2647,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_NETWORK_UNBAR.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_NETWORK_UNBAR.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -2738,7 +2738,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_LTE_NETWORK_BAR.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_LTE_NETWORK_BAR.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -2845,7 +2845,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_LTE_NETWORK_BAR.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_LTE_NETWORK_BAR.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -2935,7 +2935,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_LTE_NETWORK_UNBAR.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_LTE_NETWORK_UNBAR.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -3040,7 +3040,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SET_LTE_NETWORK_UNBAR.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SET_LTE_NETWORK_UNBAR.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -3131,7 +3131,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SND_CANCEL_LOC.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SND_CANCEL_LOC.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -3237,7 +3237,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SND_CANCEL_LOC.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SND_CANCEL_LOC.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -3328,7 +3328,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SND_LTE_CANCEL_LOC.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SND_LTE_CANCEL_LOC.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -3434,7 +3434,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.SND_LTE_CANCEL_LOC.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.SND_LTE_CANCEL_LOC.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -3520,7 +3520,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SGSN_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SGSN_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -3622,7 +3622,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SGSN_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SGSN_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -3709,7 +3709,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_MSC_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_MSC_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -3811,7 +3811,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_MSC_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_MSC_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -3899,7 +3899,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_MME_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_MME_LOC_FOR_SUBS.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -4002,7 +4002,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_MME_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_MME_LOC_FOR_SUBS.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -4091,7 +4091,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.UPT_SUBS_ATT.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.UPT_SUBS_ATT.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -4197,7 +4197,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.UPT_SUBS_ATT.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.UPT_SUBS_ATT.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -4287,7 +4287,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.MOD_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.MOD_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -4397,7 +4397,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.MOD_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.MOD_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -4484,7 +4484,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -4586,7 +4586,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
@@ -4676,7 +4676,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.REM_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.REM_STATIC_IP.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -4785,7 +4785,7 @@ public class SubscribersService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.REM_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.REM_STATIC_IP.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();

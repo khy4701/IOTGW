@@ -2,14 +2,23 @@ package com.kt.net;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.kt.restful.model.StatisticsModel;
-import com.kt.restful.service.HSSProvRequestService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.kt.restful.constants.IoTProperty;
+import com.kt.restful.model.IUDRHeartbeatCheckModel;
+import com.kt.restful.model.ProvifMsgType;
+import com.kt.restful.service.BSSProvRequestService;
+import com.kt.restful.service.CubicNotiCallbackService;
+import com.kt.restful.service.IUDRProvRequestService;
 
 
 public class DBMManager implements Receiver{
 	private static DBMManager dbmManager;
+	private static Logger logger = LogManager.getLogger(DBMManager.class);
 	
 	private static ArrayList<SenderInfo> dbmMembers;
 	
@@ -81,50 +90,13 @@ public class DBMManager implements Receiver{
 	}
 
 	@SuppressWarnings("static-access")
-	public synchronized static void sendCommand(String apiName, String seqNo, String imsi, String mdn, String ipAddress, String result, int resCode) {	
+	public synchronized static void sendCommand(String apiName, String result, int resCode, ProvifMsgType pmt) {	
 
-//		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
-//			String key = ipAddress.trim() + apiName.trim();
-//			if(resCode == 200) {
-//				if(StatisticsManager.getInstance().getStatisticsHash().containsKey(key)) {
-//					StatisticsManager.getInstance().getStatisticsHash().get(key).plusSucc();
-//				} else {
-//					StatisticsManager.getInstance().getStatisticsHash().put(key, 
-//							new StatisticsModel(apiName.trim(), ipAddress.trim(), 0, 1, 0));
-//				}
-//			} else {
-//				if(StatisticsManager.getInstance().getStatisticsHash().containsKey(key)) {
-//					if(resCode != -1) {
-//						StatisticsManager.getInstance().getStatisticsHash().get(key).plusFail();
-//
-//						if (resCode == 412)
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError412();
-//						else if (resCode == 500)
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError500();
-//						else
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError400();
-//					}
-//				} else {
-//					if(resCode != -1) {
-//						StatisticsManager.getInstance().getStatisticsHash().put(key, 
-//								new StatisticsModel(apiName.trim(), ipAddress.trim(), 0, 0, 1));
-//
-//						if (resCode == 412)
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError412();
-//						else if (resCode == 500)
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError500();
-//						else
-//							StatisticsManager.getInstance().getStatisticsHash().get(key).plusError400();
-//					}
-//				}
-//			}
-//		}
-
-		DBMConnector.getInstance().sendMessage(apiName, seqNo, imsi, mdn, ipAddress, result, resCode);
+		DBMConnector.getInstance().sendMessage(apiName, result, resCode, pmt);
 	}
 	
 	@SuppressWarnings("static-access")
-	public synchronized void receiveMessage(String apiName, String seqNo, int rspCode, String imsi, String msisdn, String ipAddress, String body) {
+	public synchronized void receiveMessage(String apiName, String seqNo, int rspCode, String imsi, String msisdn, String ipAddress, String body, ProvifMsgType pmt) {
 		
 //		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
 //			String key = ipAddress.trim() + apiName.trim();
@@ -136,9 +108,88 @@ public class DBMManager implements Receiver{
 //						new StatisticsModel(apiName.trim(), ipAddress.trim(), 1, 0, 0));
 //			}
 //		}
+				
+		List<IUDRHeartbeatCheckModel> iudrConnlist = CommandConnector.getInstance().getIudrConnCheckList();
+		String appName = IoTProperty.getPropPath("sys_name");
 		
-		HSSProvRequestService svc = new HSSProvRequestService(apiName, seqNo, rspCode, imsi, msisdn, ipAddress, body);
-		svc.start();
+		if (appName.equals("provc1") || appName.equals("provc2")) {
+			synchronized (iudrConnlist) {
+				for (IUDRHeartbeatCheckModel conn : iudrConnlist) {
+					String ip = conn.getIpAddress();
+					int port = conn.getPort();
+					String checkStr = ip + ":" + port;
+					// logger.info("IOT CHECK: " + checkStr + ", IP : " +
+					// ipAddress );
+					if (checkStr.equals(ipAddress)) {
+						IUDRProvRequestService svc = new IUDRProvRequestService(apiName, seqNo, rspCode, imsi, msisdn,
+								ipAddress, body, pmt);
+						svc.start();
+						return;
+					}
+				}
+			}
+		}
+		
+		// ipAddress -> destination 결정
+		List<IUDRHeartbeatCheckModel> bssiotConnlist = CommandConnector.getInstance().getBssiotConnCheckList();
+		
+		if (appName.equals("provc1") || appName.equals("provc2")) {
+			synchronized (bssiotConnlist) {
+				for (IUDRHeartbeatCheckModel conn : bssiotConnlist) {
+					String ip = conn.getIpAddress();
+					int port = conn.getPort();
+					String checkStr = ip + ":" + port;
+
+					// logger.info("BSS CHECK: " + checkStr + ", IP : " +
+					// ipAddress);
+					if (checkStr.equals(ipAddress)) {
+						BSSProvRequestService svc = new BSSProvRequestService(apiName, seqNo, rspCode, imsi, msisdn,
+								ipAddress, body, pmt);
+						svc.start();
+						return;
+					}
+				}
+			}
+		}		
+		
+		// ipAddress -> destination 결정
+		List<IUDRHeartbeatCheckModel> cubicConnlist = CommandConnector.getInstance().getCubicConnCheckList();
+		if (appName.equals("provc3")) {
+			synchronized (cubicConnlist) {
+				for (IUDRHeartbeatCheckModel conn : cubicConnlist) {
+					String ip = conn.getIpAddress();
+					int port = conn.getPort();
+					String checkStr = ip + ":" + port;
+
+					// logger.info("BSS CHECK: " + checkStr + ", IP : " +
+					// ipAddress);
+
+					if (checkStr.equals(ipAddress)) {
+						CubicNotiCallbackService svc = new CubicNotiCallbackService(apiName, seqNo, rspCode, imsi,
+								msisdn, ipAddress, body, pmt);
+						svc.start();
+						return;
+					}
+				}
+			}
+		}
+		
+		logger.info("Not defined connection info: " + ipAddress + ", API NAME : " + apiName );
+		logger.info("[1] IUDR List: ");
+		for (IUDRHeartbeatCheckModel conn : iudrConnlist) {
+			logger.info("IP ADDRESS: " + conn.getIpAddress() +":" + conn.getPort());
+		}
+		
+		logger.info("[2] BSS List: ");
+		for (IUDRHeartbeatCheckModel conn : bssiotConnlist) {
+			logger.info("IP ADDRESS: " + conn.getIpAddress() +":" + conn.getPort());
+		}
+		
+		logger.info("[3] CUBIC List: ");
+		for (IUDRHeartbeatCheckModel conn : cubicConnlist) {
+			logger.info("IP ADDRESS: " + conn.getIpAddress() +":" + conn.getPort());
+		}
+
 	}	
 	
 	

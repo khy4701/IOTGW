@@ -1,8 +1,11 @@
 package com.kt.restful.model;
 
 public class StatisticsModel {
+	private String oSyscode;
 	private String apiName; 
 	private String ipAddress;
+	private int port;
+
 	private int total;
 	private int succ;
 	private int fail;
@@ -11,6 +14,9 @@ public class StatisticsModel {
 	private int error410;
 	private int error500;
 	private int error501;
+	private int error403;
+	private int error503;
+	private int errorEtc;
 	
 	public StatisticsModel() {
 		this.apiName = ""; 
@@ -23,17 +29,31 @@ public class StatisticsModel {
 		this.error410 = 0;
 		this.error500 = 0;
 		this.error501 = 0;
+		this.error403 = 0;
+		this.error503 = 0;
+		this.errorEtc = 0;
 	}
 	
-	public StatisticsModel(String apiName, String ipAddress, int total, int succ, int fail) {
+	public StatisticsModel(String oSyscode, String apiName, String ipAddress, int total, int succ, int fail) {
+		this.oSyscode = oSyscode;
 		this.apiName = apiName; 
 		this.ipAddress = ipAddress;
 		this.total = total;
 		this.succ = succ;
 		this.fail = fail;	
+		this.error400 = 0;
+		this.error409 = 0;
+		this.error410 = 0;
+		this.error500 = 0;
+		this.error501 = 0;
+		this.error403 = 0;
+		this.error503 = 0;
+		this.errorEtc = 0;
+
 	}
 	
-	public StatisticsModel(String apiName, String ipAddress, int total, int succ, int fail, int error400, int error500) {
+	public StatisticsModel(String oSyscode, String apiName, String ipAddress, int total, int succ, int fail, int error400, int error500) {
+		this.oSyscode = oSyscode;
 		this.apiName = apiName; 
 		this.ipAddress = ipAddress;
 		this.total = total;
@@ -42,6 +62,15 @@ public class StatisticsModel {
 		this.error400 = error400;
 		this.error500 = error500;
 	}
+	
+	public String getOsysCode() {
+		return oSyscode;
+	}
+
+	public void setOsysCode(String oSyscode) {
+		this.oSyscode = oSyscode;
+	}
+
 
 	public String getApiName() {
 		return apiName;
@@ -58,6 +87,15 @@ public class StatisticsModel {
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
+	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 
 	public int getTotal() {
 		return total;
@@ -123,6 +161,22 @@ public class StatisticsModel {
 		this.error501 = error501;
 	}
 
+	public int getError403() {
+		return error403;
+	}
+
+	public void setError403(int error403) {
+		this.error403 = error403;
+	}
+
+	public int getError503() {
+		return error503;
+	}
+
+	public void setError503(int error503) {
+		this.error503 = error503;
+	}
+
 	public int plusTotal() {
 		return total++;
 	}
@@ -154,4 +208,23 @@ public class StatisticsModel {
 	public int plusError501() {
 		return error501++;
 	}
-}
+	
+	public int plusError403() {
+		return error403++;
+	}
+	
+	public int plusError503() {
+		return error503++;
+	}
+	
+	public int plusErrorEtc() {
+		return errorEtc++;
+	}
+	
+	public int getErrorEtc() {
+		return errorEtc;
+	}
+
+	public void setErrorEtc(int errorEtc) {
+		this.errorEtc = errorEtc;
+	}}

@@ -15,16 +15,16 @@ import java.util.Properties;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-public class AllowIpProperty {
+public class AllowIpProperty_CUBIC {
 	private static Map<String, String> propHandlerMap = new HashMap<String, String>();
 	
-	private static Logger logger = LogManager.getLogger(AllowIpProperty.class);
+	private static Logger logger = LogManager.getLogger(AllowIpProperty_CUBIC.class);
 
 	static {
 		Properties prop = new Properties();
 		InputStream fis = null;
 		try {
-			fis =  new FileInputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/allowIp.properties");
+			fis =  new FileInputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/cubic_allowIp.properties");
 			prop.load(fis);
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage());
@@ -49,7 +49,7 @@ public class AllowIpProperty {
 		OutputStream output = null;
 
 		try {
-			output = new FileOutputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/allowIp.properties");
+			output = new FileOutputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/cubic_allowIp.properties");
 
 			StringBuffer allowIpListSB = new StringBuffer();
 			for( String ip : allowIpList ){
@@ -72,7 +72,7 @@ public class AllowIpProperty {
 		}
 	}
 	
-	private AllowIpProperty(){}
+	private AllowIpProperty_CUBIC(){}
 	
 	public static String getPropPath(String constName) {
 		
@@ -82,7 +82,7 @@ public class AllowIpProperty {
 		Properties prop1 = new Properties();
 		InputStream fis = null;
 		try {
-			fis =  new FileInputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/allowIp.properties");
+			fis =  new FileInputStream(IoTProperty.getPropPath("allow_ip_file_path") + "/cubic_allowIp.properties");
 			prop1.load(fis);
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage());

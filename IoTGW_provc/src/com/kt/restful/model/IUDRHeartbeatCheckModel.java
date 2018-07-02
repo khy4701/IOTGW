@@ -7,10 +7,22 @@ public class IUDRHeartbeatCheckModel {
 
 	private String ipAddress = "";
 	private int status = CONN_STS_NORMAL;
+	private int port = 0;
+	private int connType = 0;
 	
-	public IUDRHeartbeatCheckModel(String ipAddress, int status) {
+	public IUDRHeartbeatCheckModel(String ipAddress, int port, int status, int connType) {
 		this.ipAddress = ipAddress;
-		this.status = status;
+		this.port = port;
+		this.status = status;		
+		this.connType = connType;
+	}
+
+	public int getConnType() {
+		return connType;
+	}
+
+	public void setConnType(int connType) {
+		this.connType = connType;
 	}
 
 	public String getIpAddress() {
@@ -28,4 +40,13 @@ public class IUDRHeartbeatCheckModel {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
 }

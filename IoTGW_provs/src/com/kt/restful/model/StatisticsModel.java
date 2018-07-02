@@ -1,8 +1,10 @@
 package com.kt.restful.model;
 
 public class StatisticsModel {
+	private String osysCode;
 	private String apiName; 
 	private String ipAddress;
+	private int port;
 	private int total;
 	private int succ;
 	private int fail;
@@ -13,8 +15,10 @@ public class StatisticsModel {
 	private int error501;
 	private int error403;
 	private int error503;
+	private int errorEtc;
 	
 	public StatisticsModel() {
+		this.osysCode = "";
 		this.apiName = ""; 
 		this.ipAddress = "";
 		this.total = 0;
@@ -27,9 +31,11 @@ public class StatisticsModel {
 		this.error501 = 0;
 		this.error403 = 0;
 		this.error503 = 0;
+		this.errorEtc = 0;
 	}
 	
-	public StatisticsModel(String apiName, String ipAddress, int total, int succ, int fail) {
+	public StatisticsModel(String osysCode, String apiName, String ipAddress, int total, int succ, int fail) {
+		this.osysCode = osysCode;
 		this.apiName = apiName; 
 		this.ipAddress = ipAddress;
 		this.total = total;
@@ -42,9 +48,12 @@ public class StatisticsModel {
 		this.error501 = 0;
 		this.error403 = 0;
 		this.error503 = 0;
+		this.errorEtc = 0;
 	}
 	
-	public StatisticsModel(String apiName, String ipAddress, int total, int succ, int fail, int error400, int error500) {
+
+	public StatisticsModel(String osysCode, String apiName, String ipAddress, int total, int succ, int fail, int error400, int error500) {
+		this.osysCode = osysCode;
 		this.apiName = apiName; 
 		this.ipAddress = ipAddress;
 		this.total = total;
@@ -54,6 +63,14 @@ public class StatisticsModel {
 		this.error500 = error500;
 	}
 
+	public String getOsysCode() {
+		return osysCode;
+	}
+
+	public void setOsysCode(String osysCode) {
+		this.osysCode = osysCode;
+	}
+	
 	public String getApiName() {
 		return apiName;
 	}
@@ -69,6 +86,15 @@ public class StatisticsModel {
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
+	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 
 	public int getTotal() {
 		return total;
@@ -189,4 +215,17 @@ public class StatisticsModel {
 	public int plusError503() {
 		return error503++;
 	}
+	
+	public int plusErrorEtc() {
+		return errorEtc++;
+	}
+	
+	public int getErrorEtc() {
+		return errorEtc;
+	}
+
+	public void setErrorEtc(int errorEtc) {
+		this.errorEtc = errorEtc;
+	}
+
 }

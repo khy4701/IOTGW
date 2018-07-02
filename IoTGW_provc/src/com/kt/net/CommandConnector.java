@@ -1,6 +1,8 @@
 package com.kt.net;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.kt.restful.constants.IoTProperty;
 import com.kt.restful.model.IUDRHeartbeatCheckModel;
+import com.kt.restful.model.MMCMsgType;
 import com.kt.util.Util;
 
 public class CommandConnector extends Connector3 {
@@ -28,14 +31,32 @@ public class CommandConnector extends Connector3 {
 
 	public static int reqId = 1000;
 	
-	public List<IUDRHeartbeatCheckModel> iudrConnCheckList = new ArrayList<IUDRHeartbeatCheckModel>(); 
+	public List<IUDRHeartbeatCheckModel> iudrConnCheckList = new ArrayList<IUDRHeartbeatCheckModel>();
+	public List<IUDRHeartbeatCheckModel> bssiotConnCheckList = new ArrayList<IUDRHeartbeatCheckModel>();
+	public List<IUDRHeartbeatCheckModel> cubicConnCheckList = new ArrayList<IUDRHeartbeatCheckModel>();
 	
 	public List<IUDRHeartbeatCheckModel> getIudrConnCheckList() {
 		return iudrConnCheckList;
 	}
+	
+	public List<IUDRHeartbeatCheckModel> getBssiotConnCheckList() {
+		return bssiotConnCheckList;
+	}
+	
+	public List<IUDRHeartbeatCheckModel> getCubicConnCheckList() {
+		return cubicConnCheckList;
+	} 
 
 	public void setIudrConnCheckList(List<IUDRHeartbeatCheckModel> iudrConnCheckList) {
 		this.iudrConnCheckList = iudrConnCheckList;
+	}
+	
+	public void setBssiotConnCheckList(List<IUDRHeartbeatCheckModel> bssiotConnCheckList) {
+		this.bssiotConnCheckList = bssiotConnCheckList;
+	}
+
+	public void setCubicConnCheckList(List<IUDRHeartbeatCheckModel> cubicConnCheckList) {
+		this.cubicConnCheckList = cubicConnCheckList;
 	}
 
 	public static CommandConnector getInstance() {
@@ -52,47 +73,68 @@ public class CommandConnector extends Connector3 {
 		for( int i=0; i<msgSize.length; i++ )
 			msgSize[i] = -1;
 
-		//		if (isConnected()) {
-		//			try {
-		//				dataOut.writeInt("INIT_COMPLETE".getBytes().length);	// length
-		//				dataOut.writeInt(0);								                    // mapType					
-		//				dataOut.writeInt(0);								                    // seqflag + seqNo
-		//				dataOut.writeBytes("INIT_COMPLETE");					         // body
-		//				dataOut.flush();
-		//				
-		//				
-		//				System.out.println("XXXX");
-		//			} catch (IOException e) {
-		//			    e.printStackTrace();
-		//			}			
-		//		}
 	}
 
-	public boolean sendIUDRConnCheckMessage() {
+	public boolean sendConnCheckMessage(int connType) {
+		
+		List<IUDRHeartbeatCheckModel> connCheckList = null;
+		
+		String appName = IoTProperty.getPropPath("sys_name");
+		
+		// connType 
+		// provc1 : IUDR(2), BSS-IOT(5)
+		// provc2 : BSS-IOT(5)
+		// provc3 : CUBIC(6)
+		
+		if (appName.equals("provc1") && connType == 2)
+			connCheckList = iudrConnCheckList;
+		
+		else if ( (appName.equals("provc1") && connType == 5) || (appName.equals("provc2") && connType == 5))
+			connCheckList = bssiotConnCheckList;
+		
+		else if (appName.equals("provc3") && connType == 6){
+			connCheckList = cubicConnCheckList;
+		}
+		else
+			return false;
+			
 		try {
-			synchronized(iudrConnCheckList) {
-				int bodyLen = 4 + (iudrConnCheckList.size() * 68);
+			synchronized(connCheckList) {
+				int bodyLen = 8 + (connCheckList.size() * 72 );
 				int mapType = 100;
 
-				dataOut.writeInt(byteToInt(toBytes(bodyLen), ByteOrder.BIG_ENDIAN));
+				//dataOut.writeInt(byteToInt(toBytes(bodyLen), ByteOrder.BIG_ENDIAN));
+				dataOut.writeInt(bodyLen);
 				dataOut.writeInt(mapType);
 				dataOut.writeInt(0);
 
+				//connType
+				dataOut.writeInt(connType);
+				
 				//count
-				dataOut.writeInt(iudrConnCheckList.size());
+				dataOut.writeInt(connCheckList.size());
 
-				for(IUDRHeartbeatCheckModel model : iudrConnCheckList) {
+				for(IUDRHeartbeatCheckModel model : connCheckList) {
 					if(CommandManager.getInstance().isLogFlag()) {
-						logger.info("IUDR IP : " + model.getIpAddress() + " STATUS : " + model.getStatus());
+						logger.info("IUDR IP : " + model.getIpAddress()+ " PORT : "+ model.getPort() + " STATUS : " + model.getStatus() +" CONN TYPE : " + model.getConnType() );
 					}
+					
 					//ipAddress
 					dataOut.write(model.getIpAddress().getBytes());
 					for(int i = 0; i < 64 - model.getIpAddress().length(); i++)
 						dataOut.write("\0".getBytes());
+					
+					//port
+					dataOut.writeInt(model.getPort());
+					
 					//status
 					dataOut.writeInt(model.getStatus());
-
+					
 				}
+				
+//				if(CommandManager.getInstance().isLogFlag()) {
+//					logger.info("[PROVS -> MMIBMMIB, H.B MSG]  MAP_TYPE[" + mapType +"] CONNTYPE [" + connType +"] COUNT [ " + connCheckList.size() );
+//				}
 
 				dataOut.flush();
 			}
@@ -102,19 +144,29 @@ public class CommandConnector extends Connector3 {
 		return true;
 	}
 
-	protected boolean sendMessage(String command, String imsi, String ipAddress, String sendMsg, int jobNo) {
+	protected boolean sendMessage(MMCMsgType resMMCType, String sendMsg) {
 		try {
-
-			int bodyLen = 32 + 16 + 64 + 4 + sendMsg.length();
-
-			if(CommandManager.getInstance().isLogFlag()) {
+			int bodyLen = MMCMsgType.getProvMmcHeaderSize() + sendMsg.length();
+			
+			String appname  = resMMCType.getAppName();
+			String command  = resMMCType.getCommand();
+			String imsi		= resMMCType.getImsi();
+			String ipAddress= resMMCType.getIpAddress();
+			String jobNo	= resMMCType.getJobNumber();
+			String port		= resMMCType.getPort();
+			String tcpMode	= resMMCType.getTcpMode();
+			
+			if(CommandManager.getInstance().isLogFlag()){
 				logger.info("===============================================");
-				logger.info("PROVS -> MMIB");
+				logger.info("PROVC -> MMIB");
 				logger.info("bodyLen : " + bodyLen);
+				logger.info("appname : " + appname);
 				logger.info("command : " + command);
 				logger.info("imsi : " + imsi);
 				logger.info("ipAddress : " + ipAddress);
 				logger.info("jobNo : " + jobNo);
+				logger.info("port : " + port);
+				logger.info("tcpMode : " + tcpMode);
 				logger.info("sendMsg ");
 				logger.info(sendMsg);
 				logger.info("===============================================");
@@ -131,30 +183,47 @@ public class CommandConnector extends Connector3 {
 			//Statistics Count
 			dataOut.writeInt(mapType);
 			dataOut.writeInt(0);
-			//			for(int i = 0; i < 4; i++)
-			//				dataOut.write("0".getBytes());
 
+			//appname
+			dataOut.write(appname.getBytes());
+			for(int i = 0; i < MMCMsgType.getAppNameLen() - appname.length(); i++)
+				dataOut.write("\0".getBytes());
+			
 			//command
 			dataOut.write(command.getBytes());
-			for(int i = 0; i < 32 - command.length(); i++)
+			for(int i = 0; i < MMCMsgType.getCommandLen() - command.length(); i++)
 				dataOut.write("\0".getBytes());
 
 			//imsi
 			dataOut.write(imsi.getBytes());
-			for(int i = 0; i < 16 - imsi.length(); i++)
+			for(int i = 0; i < MMCMsgType.getImsiLen() - imsi.length(); i++)
 				dataOut.write("\0".getBytes());
 
 			//ipAddress
 			dataOut.write(ipAddress.getBytes());
-			for(int i = 0; i < 64 - ipAddress.length(); i++)
+			for(int i = 0; i < MMCMsgType.getIpLen() - ipAddress.length(); i++)
 				dataOut.write("\0".getBytes());
 
-			dataOut.writeInt(jobNo);
+			//jobNumber
+			dataOut.write(jobNo.getBytes());
+			for(int i = 0; i < MMCMsgType.getJobLen() - jobNo.length(); i++)
+				dataOut.write("\0".getBytes());
+			
+			// port
+			dataOut.write(port.getBytes());
+			for(int i = 0; i < MMCMsgType.getPortLen() - port.length(); i++)
+				dataOut.write("\0".getBytes());
+			
+			// tcpMode
+			dataOut.write(tcpMode.getBytes());
+			for(int i = 0; i < MMCMsgType.getTcpmodeLen() - tcpMode.length(); i++)
+				dataOut.write("\0".getBytes());
 
 			//sendMsg
 			dataOut.write(sendMsg.getBytes());
 
 			dataOut.flush();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -187,12 +256,13 @@ public class CommandConnector extends Connector3 {
 		if (msgReadStarted == false) {
 			//			reservedMsgSize = byteToInt(toBytes(dataIn.readInt()), ByteOrder.BIG_ENDIAN);
 			//			reservedMsgSize = byteToInt(toBytes(dataIn.readInt()), ByteOrder.LITTLE_ENDIAN);
+			
+			// Socket Header[bodylen]
 			reservedMsgSize = dataIn.readInt();
 			//			reservedMsgSize = reservedMsgSize - 4;
 			if (reservedMsgSize > BUFFER_SIZE) {
 				logger.info(
 						"(DBM) ReservedMsgSize is larger than "+ BUFFER_SIZE+ " : " + reservedMsgSize);
-				//				throw new IOException("Larger than " + BUFFER_SIZE + " bytes");
 				msgReadStarted = false;
 				totalReadSize = 0;
 
@@ -201,9 +271,10 @@ public class CommandConnector extends Connector3 {
 				return;
 			}
 
+			// Socket Header[mapType]
 			mapType = dataIn.readInt();
+			// Socket Header[mtype]
 			dataIn.skipBytes(4);
-//			dataIn.skipBytes(8);
 
 			msgReadStarted = true;
 			totalReadSize = 0;
@@ -217,50 +288,77 @@ public class CommandConnector extends Connector3 {
 				
 				//Command 처리 mapType 46 
 				if(mapType == 46) {
-					byte[] commandBuffer = new byte[32];
-					byte[] imsiBuffer = new byte[16];
-					byte[] ipAddressBuffer = new byte[64];
-
-					din.read(commandBuffer, 0, commandBuffer.length);
-					String command = Util.nullTrim(new String(commandBuffer));
-
-					din.read(imsiBuffer, 0, imsiBuffer.length);
-					String imsi = Util.nullTrim(new String(imsiBuffer));
-
-					din.read(ipAddressBuffer, 0, ipAddressBuffer.length);
-					String ipAddress = Util.nullTrim(new String(ipAddressBuffer));
-
-					int jobNo = din.readInt();
-
+					
+					MMCMsgType mmcMsg = new MMCMsgType(); 
+					mmcMsg.setMMCMsgType(din);
+					
 					if(CommandManager.getInstance().isLogFlag()) {
 						logger.info("===============================================");
 						logger.info("MMIB -> PROVS");
 						logger.info("bodyLen : " + reservedMsgSize);
-						logger.info("command : " + command);
-						logger.info("imsi : " + imsi);
-						logger.info("ipAddress : " + ipAddress);
-						logger.info("jobNo : " + jobNo);
+						logger.info("appname : " + mmcMsg.getAppName());
+						logger.info("command : " + mmcMsg.getCommand());
+						logger.info("imsi : " + mmcMsg.getImsi());
+						logger.info("ipAddress : " + mmcMsg.getIpAddress());
+						logger.info("jobNo : " + mmcMsg.getJobNumber());
+						logger.info("port : " + mmcMsg.getPort());
+						logger.info("tcpMode : " + mmcMsg.getTcpMode());						
 						logger.info("===============================================");
 					}
-
-					receiver.receiveMessage(command, imsi, ipAddress, jobNo);
 					
+					receiver.receiveMessage(mmcMsg);					
+					
+				// Heart Beat
 				//IUDR Connection Check mapType 100
 				} else if (mapType == 100) {
 					
-					synchronized (iudrConnCheckList) {
+					List<IUDRHeartbeatCheckModel> ConnCheckList = null;
+					
+					// Connection Type
+					int connType = din.readInt();
+										
+					List<IUDRHeartbeatCheckModel> notusedConnCheckList = new ArrayList<IUDRHeartbeatCheckModel>();
+					// iudr
+					if (connType == 2)
+						ConnCheckList = iudrConnCheckList;
+					// bss-iot
+					else if (connType == 5)
+						ConnCheckList = bssiotConnCheckList;
+					// cubic-iot
+					else if (connType == 6)
+						ConnCheckList = cubicConnCheckList;					
+					else
+						// mmib->provc , provs 로 broadcasting 하는데, connType = 6(cubic-iot)는 provs에서 처리하는 메시지. 
+						ConnCheckList = notusedConnCheckList;
+					
+					synchronized (ConnCheckList) {
+						// Count
 						int count = din.readInt();
-						iudrConnCheckList.clear();
-						
-						for(int i = 0; i < count; i++) {
+						ConnCheckList.clear();
+
+						for(int i = 0; i < 32; i++) {
 							byte[] ipAddressBuffer = new byte[64];
 							din.read(ipAddressBuffer, 0, ipAddressBuffer.length);
-							String ipAddress = Util.nullTrim(new String(ipAddressBuffer));
-							din.skipBytes(4);
 							
-							iudrConnCheckList.add(new IUDRHeartbeatCheckModel(ipAddress, 0));
+							// IpAddress
+							String ipAddress = Util.nullTrim(new String(ipAddressBuffer));
+							
+							// port 
+							int port = din.readInt();
+							
+							// status
+							din.skipBytes(4);
+														
+							if (ipAddress.equals(""))
+								continue;							
+							
+							ConnCheckList.add(new IUDRHeartbeatCheckModel(ipAddress, port, 0, connType));
 						}
-					}
+												
+//						if(CommandManager.getInstance().isLogFlag()) {
+//							logger.info("[MMIB -> PROVS, H.B MSG] BODY_LEN[" + reservedMsgSize +"] CONNTYPE [" + connType +"] COUNT [ " + count );
+//						}
+					}				
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

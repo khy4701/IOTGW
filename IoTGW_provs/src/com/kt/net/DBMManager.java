@@ -1,6 +1,9 @@
 package com.kt.net;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kt.restful.model.ProvifMsgType;
 
 
 public class DBMManager implements Receiver{
@@ -31,16 +34,26 @@ public class DBMManager implements Receiver{
 		return clientReqID;
 	}
 
-	public synchronized static void sendCommand(String command, List<String[]> params, DBMListener source, int reqId, String imsi, String mdn, String ipAddress) {
+	public synchronized static void sendCommand(String command, List<String[]> params, DBMListener source, int reqId, ProvifMsgType pmt) {
 
 		SenderInfo sender = new SenderInfo(reqId, source);
 		dbmMembers.add(sender);
 
-		if(!DBMConnector.getInstance().sendMessage(command, params, reqId, imsi, mdn, ipAddress)) {			
+		if(!DBMConnector.getInstance().sendMessage(command, params, reqId, pmt)) {			
 			dbmMembers.remove(sender);
 		}
 	}
 	
+	public synchronized static void sendCommand(String command, String jsonBody, DBMListener source, int reqId, String ipAddress, ProvifMsgType pmt) {
+
+		SenderInfo sender = new SenderInfo(reqId, source);
+		dbmMembers.add(sender);
+
+		if(!DBMConnector.getInstance().sendMessage(command, jsonBody, reqId, ipAddress, pmt)) {			
+			dbmMembers.remove(sender);
+		}
+	}
+
 	public synchronized static void sendCommand(String command, DBMListener source) {
 
 //		SenderInfo sender = new SenderInfo(cliReqId, source);
@@ -54,7 +67,7 @@ public class DBMManager implements Receiver{
 //		else     cliReqId++;
 	}
 	
-	public synchronized void receiveMessage(String message, int rspCode, int cliReqId) {
+	public synchronized void receiveMessage(String message, int rspCode, int cliReqId, ProvifMsgType pmt) {
 		SenderInfo sender = null;
 		
 		for(int i = 0 ; i < dbmMembers.size() ; i++) {
@@ -62,7 +75,7 @@ public class DBMManager implements Receiver{
 			if(sender != null) {
 				if(sender.getCliReqId() == cliReqId) {
 					DBMListener dbmListener = sender.getSource();
-					dbmListener.setComplete(message, rspCode, cliReqId);
+					dbmListener.setComplete(message, rspCode, cliReqId, pmt);
 					dbmMembers.remove(i);
 				}
 			}

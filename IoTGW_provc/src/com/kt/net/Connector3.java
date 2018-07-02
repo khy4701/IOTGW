@@ -71,25 +71,25 @@ public abstract class Connector3 implements Runnable {
 	 * @param ipAddr 접속 할 IP address
 	 * @param port 당근 빠따 접속 할 port
 	 */
-	public Connector3(ConnectObserver connectObserver, CommandReceiver receiver, String ipAddr, int port) {
-		this.connectObserver = connectObserver;
-
-		this.receiver = receiver;
-		// this.ipAddr = ipAddr;
-		// this.port = port;
-
-		this.buffer = new byte[BUFFER_SIZE];
-		this.header = new Header();
-
-		try {
-			if (connect(ipAddr, port)) {
-				reader = new Thread(this, "Reader");
-				reader.start();
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public Connector3(ConnectObserver connectObserver, CommandReceiver receiver, String ipAddr, int port) {
+//		this.connectObserver = connectObserver;
+//
+//		this.receiver = receiver;
+//		// this.ipAddr = ipAddr;
+//		// this.port = port;
+//
+//		this.buffer = new byte[BUFFER_SIZE];
+//		this.header = new Header();
+//
+//		try {
+//			if (connect(ipAddr, port)) {
+//				reader = new Thread(this, "Reader");
+//				reader.start();
+//			}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * 연결이 자알 되어있는지 함 보자고~

@@ -7,8 +7,6 @@ import java.util.TimerTask;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.kt.net.DBMConnector;
-
 public class ConncetionCheckThread extends Thread {
     
 	private static Logger logger = LogManager.getLogger(ConncetionCheckThread.class);
@@ -39,7 +37,7 @@ public class ConncetionCheckThread extends Thread {
         timer = new Timer();
         
         Calendar now = Calendar.getInstance();
-        timer.scheduleAtFixedRate(task, now.getTime(), 1000);
+        timer.scheduleAtFixedRate(task, now.getTime(), 3000);
         
         while (!finishing()) {
             try {

@@ -57,9 +57,10 @@
 	<listener>
 	    <listener-class>com.kt.restful.scheduler.ClientScheduler</listener-class>
 	</listener>
+	<!-- 
 	<listener>
 	    <listener-class>com.kt.restful.scheduler.ConnectionCheckScheduler</listener-class>
-	</listener>
+	</listener> -->
 	<!-- 
 	<listener>
 	    <listener-class>com.kt.restful.scheduler.ClientScheduler</listener-class>

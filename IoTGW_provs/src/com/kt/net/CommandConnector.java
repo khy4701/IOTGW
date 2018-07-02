@@ -1,6 +1,8 @@
 package com.kt.net;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -8,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.kt.restful.constants.IoTProperty;
-import com.kt.util.Util;
+import com.kt.restful.model.MMCMsgType;
 
 public class CommandConnector extends Connector2 {
 
@@ -66,20 +68,57 @@ public class CommandConnector extends Connector2 {
 		return true;
 	}
 
-	protected boolean sendMessage(String command, String imsi, String ipAddress, String sendMsg, int jobNo) {
+//	typedef struct {
+//	    int     bodyLen;
+//	    int     mapType;    
+//	    int     mtype;   
+//	} SockLibHeadType;  
+//
+//	#define SOCKLIB_HEAD_LEN        sizeof(SockLibHeadType)
+//	#define SOCKLIB_MAX_BODY_LEN    (16384)-(SOCKLIB_HEAD_LEN)
+//	typedef struct {
+//	    SockLibHeadType head;  
+//	    char            body[SOCKLIB_MAX_BODY_LEN];
+//	} SockLibMsgType;	
+	
+//	typedef struct {
+//	    char appName[32];
+//	    char command[32];
+//	    char imsi[16];
+//	    char ipAddress[64];
+//	    char jobNumber[8];
+//	} ProvMmcRequestHeadType;
+	
+//	typedef struct {
+//	    ProvMmcRequestHeadType head;
+//	    char body[1024*4];
+//	} ProvMmcRequest;
+
+
+	protected boolean sendMessage(MMCMsgType resMMCType, String sendMsg) {
 		try {
 
-			int bodyLen = 32 + 16 + 64 + 4 + sendMsg.length();
-
+			// SockLibMsgType's body len
+			int bodyLen = MMCMsgType.getProvMmcHeaderSize() + sendMsg.length();
+			String appname  = resMMCType.getAppName();
+			String command  = resMMCType.getCommand();
+			String imsi		= resMMCType.getImsi();
+			String ipAddress= resMMCType.getIpAddress();
+			String jobNo	= resMMCType.getJobNumber();
+			String port		= resMMCType.getPort();
+			String tcpMode	= resMMCType.getTcpMode();
 
 			if(CommandManager.getInstance().isLogFlag()) {
 				logger.info("===============================================");
 				logger.info("PROVS -> MMIB");
 				logger.info("bodyLen : " + bodyLen);
+				logger.info("appname : " + appname);
 				logger.info("command : " + command);
 				logger.info("imsi : " + imsi);
 				logger.info("ipAddress : " + ipAddress);
 				logger.info("jobNo : " + jobNo);
+				logger.info("port : " + port);
+				logger.info("tcpMode : " + tcpMode);
 				logger.info("sendMsg ");
 				logger.info(sendMsg);
 				logger.info("===============================================");
@@ -91,30 +130,49 @@ public class CommandConnector extends Connector2 {
 				command = command.replace("TRACE_", "");
 			}
 
-			dataOut.writeInt(byteToInt(toBytes(bodyLen), ByteOrder.BIG_ENDIAN));
-			//			dataOut.writeInt(bodyLen);
-			//Statistics Count
+			// bodylen
+			//dataOut.writeInt(byteToInt(toBytes(bodyLen), ByteOrder.BIG_ENDIAN));
+			dataOut.writeInt(bodyLen);
+			
+			// maptype
 			dataOut.writeInt(mapType);
+			// mtype
 			dataOut.writeInt(0);
-			//			for(int i = 0; i < 4; i++)
-			//				dataOut.write("0".getBytes());
 
+			//appname
+			dataOut.write(appname.getBytes());
+			for(int i = 0; i < MMCMsgType.getAppNameLen() - appname.length(); i++)
+				dataOut.write("\0".getBytes());
+			
 			//command
 			dataOut.write(command.getBytes());
-			for(int i = 0; i < 32 - command.length(); i++)
+			for(int i = 0; i < MMCMsgType.getCommandLen() - command.length(); i++)
 				dataOut.write("\0".getBytes());
 
 			//imsi
 			dataOut.write(imsi.getBytes());
-			for(int i = 0; i < 16 - imsi.length(); i++)
+			for(int i = 0; i < MMCMsgType.getImsiLen() - imsi.length(); i++)
 				dataOut.write("\0".getBytes());
 
 			//ipAddress
 			dataOut.write(ipAddress.getBytes());
-			for(int i = 0; i < 64 - ipAddress.length(); i++)
+			for(int i = 0; i < MMCMsgType.getIpLen() - ipAddress.length(); i++)
 				dataOut.write("\0".getBytes());
 
-			dataOut.writeInt(jobNo);
+			//jobNumber
+			dataOut.write(jobNo.getBytes());
+			for(int i = 0; i < MMCMsgType.getJobLen() - jobNo.length(); i++)
+				dataOut.write("\0".getBytes());
+
+			// port
+			dataOut.write(port.getBytes());
+			for(int i = 0; i < MMCMsgType.getPortLen() - port.length(); i++)
+				dataOut.write("\0".getBytes());
+			
+			// tcpMode
+			dataOut.write(tcpMode.getBytes());
+			for(int i = 0; i < MMCMsgType.getTcpmodeLen() - tcpMode.length(); i++)
+				dataOut.write("\0".getBytes());
 
 			//sendMsg
 			dataOut.write(sendMsg.getBytes());
@@ -142,13 +200,13 @@ public class CommandConnector extends Connector2 {
 		ByteBuffer buff = ByteBuffer.allocate(Integer.SIZE/8);
 		buff.order(order);
 
-		// buff»çÀÌÁî´Â 4ÀÎ »óÅÂÀÓ
-		// bytes¸¦ putÇÏ¸é position°ú limit´Â °°Àº À§Ä¡°¡ µÊ.
+		// buffì‚¬ì´ì¦ˆëŠ” 4ì¸ ìƒíƒœìž„
+		// bytesë¥¼ putí•˜ë©´ positionê³¼ limitëŠ” ê°™ì€ ìœ„ì¹˜ê°€ ë¨.
 		buff.put(bytes);
-		// flip()°¡ ½ÇÇà µÇ¸é positionÀº 0¿¡ À§Ä¡ ÇÏ°Ô µÊ.
+		// flip()ê°€ ì‹¤í–‰ ë˜ë©´ positionì€ 0ì— ìœ„ì¹˜ í•˜ê²Œ ë¨.
 		buff.flip();
 
-		return buff.getInt(); // positionÀ§Ä¡(0)¿¡¼­ ºÎÅÍ 4¹ÙÀÌÆ®¸¦ int·Î º¯°æÇÏ¿© ¹ÝÈ¯
+		return buff.getInt(); // positionìœ„ì¹˜(0)ì—ì„œ ë¶€í„° 4ë°”ì´íŠ¸ë¥¼ intë¡œ ë³€ê²½í•˜ì—¬ ë°˜í™˜
 	}
 
 	protected void readMessage() throws IOException {
@@ -182,37 +240,29 @@ public class CommandConnector extends Connector2 {
 
 			din = new DataInputStream(new ByteArrayInputStream(buffer));
 			try {
+				//Command ì²˜ë¦¬ mapType 46 
+				if(mapType == 46) {
 
-				if(mapType == 46) {				
-					byte[] commandBuffer = new byte[32];
-					byte[] imsiBuffer = new byte[16];
-					byte[] ipAddressBuffer = new byte[64];
-
-					din.read(commandBuffer, 0, commandBuffer.length);
-					String command = Util.nullTrim(new String(commandBuffer));
-
-					din.read(imsiBuffer, 0, imsiBuffer.length);
-					String imsi = Util.nullTrim(new String(imsiBuffer));
-
-					din.read(ipAddressBuffer, 0, ipAddressBuffer.length);
-					String ipAddress = Util.nullTrim(new String(ipAddressBuffer));
-
-					//				int jobNo = byteToInt(toBytes(din.readInt()), ByteOrder.BIG_ENDIAN);
-					int jobNo = din.readInt();
-
+					MMCMsgType mmcMsg = new MMCMsgType(); 
+					mmcMsg.setMMCMsgType(din);
+					
+					
 					if(CommandManager.getInstance().isLogFlag()) {
 						logger.info("===============================================");
 						logger.info("MMIB -> PROVS");
 						logger.info("bodyLen : " + reservedMsgSize);
-						logger.info("command : " + command);
-						logger.info("imsi : " + imsi);
-						logger.info("ipAddress : " + ipAddress);
-						logger.info("jobNo : " + jobNo);
+						logger.info("appname : " + mmcMsg.getAppName());
+						logger.info("command : " + mmcMsg.getCommand());
+						logger.info("imsi : " + mmcMsg.getImsi());
+						logger.info("ipAddress : " + mmcMsg.getIpAddress());
+						logger.info("jobNo : " + mmcMsg.getJobNumber());
+						logger.info("port : " + mmcMsg.getPort());
+						logger.info("tcpMode : " + mmcMsg.getTcpMode());						
 						logger.info("===============================================");
 					}
 
 					//				Thread.sleep(500);
-					receiver.receiveMessage(command, imsi, ipAddress, jobNo);
+					receiver.receiveMessage(mmcMsg);					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

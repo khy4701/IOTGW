@@ -8,14 +8,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
-import com.kt.restful.service.ApnsService;
 
 public class OverloadControlProperty {
 	private static Map<String, String> propHandlerMap = new HashMap<String, String>();

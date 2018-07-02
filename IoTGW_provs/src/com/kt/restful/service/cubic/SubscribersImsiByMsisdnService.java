@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.kt.net.CommandConnector;
 import com.kt.net.CommandManager;
 import com.kt.net.DBMListener;
 import com.kt.net.DBMManager;
@@ -111,7 +110,7 @@ public class SubscribersImsiByMsisdnService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SUBS_MDN_BY_IMSI.getName(), imsi, "242", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SUBS_MDN_BY_IMSI.getName(), imsi, "242", sb.toString(), 0);
 		}
 
 		synchronized (StatisticsManager.getInstance().getStatisticsHash()) {
@@ -213,7 +212,7 @@ public class SubscribersImsiByMsisdnService implements DBMListener  {
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
 
-			CommandManager.getInstance().sendMessage("TRACE_" + ApiDefine.GET_SUBS_MDN_BY_IMSI.getName(), imsi, "124", sb.toString(), 0);
+			CommandManager.getInstance().sendMessage(IoTProperty.getPropPath("sys_name"), "TRACE_" + ApiDefine.GET_SUBS_MDN_BY_IMSI.getName(), imsi, "124", sb.toString(), 0);
 		}
 
 		return Response.status(resultCode).entity(this.msg).build();
