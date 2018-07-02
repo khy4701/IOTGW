@@ -10,11 +10,11 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+   
   	<!--  Japser -->
   	<servlet>
 		<servlet-name>RESTful Application</servlet-name>
  		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<!-- <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  -->
     <init-param>
         <param-name>com.sun.jersey.config.feature.Redirect</param-name>
         <param-value>true</param-value>
@@ -36,9 +36,38 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RESTful Application</servlet-name>
+		<!-- <url-pattern>/api/v1/kt/*</url-pattern> -->
 		<url-pattern>/api/v1/kt/*</url-pattern>
 	</servlet-mapping>
 	
+	<!--  Cubic -->
+  	<servlet>
+		<servlet-name>RESTful Application3</servlet-name>
+ 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+        <param-name>com.sun.jersey.config.feature.Redirect</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
+        <param-value>/views/</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
+        <param-value>/(images|css|jsp)/.*</param-value>
+    </init-param>
+	<init-param>
+	    <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+	    <param-value>true</param-value>
+	</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RESTful Application3</servlet-name>
+		<!-- <url-pattern>/api/v1/kt/*</url-pattern> -->
+		<url-pattern>/api/v1/*</url-pattern>
+	</servlet-mapping>
 	
 	<!--  Cubic -->
 	<servlet>
@@ -66,8 +95,10 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RESTful Application2</servlet-name>
-		<url-pattern>/v1/*</url-pattern>
+		<url-pattern>/mno/api/v1/*</url-pattern>
 	</servlet-mapping>
+	
+	
 	
 	
     <context-param>

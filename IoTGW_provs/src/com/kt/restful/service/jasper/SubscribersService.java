@@ -87,14 +87,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -360,14 +352,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -597,14 +581,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -831,14 +807,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -1057,14 +1025,6 @@ public class SubscribersService implements DBMListener  {
 			return Response.status(503).entity("").build();
 		}
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -1285,14 +1245,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -1480,7 +1432,7 @@ public class SubscribersService implements DBMListener  {
 			@PathParam("pdnId") String pdnId) {
 
 		String reqIpAddress = req.getRemoteAddr();
-		String apiName =  ApiDefine.GET_HSS_STATIC_IP.getName();
+		String apiName =  ApiDefine.REM_HSS_STATIC_IP.getName();
 
 		
 		if(CommandManager.getInstance().isLogFlag()) {
@@ -1511,14 +1463,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -1749,14 +1693,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -1968,14 +1904,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -2187,14 +2115,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -2406,14 +2326,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -2627,14 +2539,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -2855,14 +2759,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -3083,14 +2979,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -3311,14 +3199,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -3538,14 +3418,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -3766,14 +3638,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -3991,14 +3855,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -4210,14 +4066,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -4430,14 +4278,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -4650,14 +4490,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -4877,14 +4709,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -5106,14 +4930,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;
@@ -5326,14 +5142,6 @@ public class SubscribersService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(reqIpAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(reqIpAddress)){
 				allowIpFlag = true;

@@ -365,14 +365,17 @@ public class StatisticsConnector extends Connector {
 					for (int i= 0 ; i < 32-statCnt; i++)
 						dataOut.writeInt(0);				
 					
-					logger.info("appName: " + appName);
-					logger.info("osysCode: " + entry.getValue().getOsysCode());
-					logger.info("ipAddress: " + entry.getValue().getIpAddress());
-					logger.info("port: " + entry.getValue().getPort());
-					logger.info("apiName: " + entry.getValue().getApiName());
-					logger.info("total: " + entry.getValue().getTotal());
-					logger.info("success: " + entry.getValue().getSucc());
-					logger.info("fail: " + entry.getValue().getFail());
+					
+					if(CommandManager.getInstance().isLogFlag()){
+						logger.info("appName: " + appName);
+						logger.info("osysCode: " + entry.getValue().getOsysCode());
+						logger.info("ipAddress: " + entry.getValue().getIpAddress());
+						logger.info("port: " + entry.getValue().getPort());
+						logger.info("apiName: " + entry.getValue().getApiName());
+						logger.info("total: " + entry.getValue().getTotal());
+						logger.info("success: " + entry.getValue().getSucc());
+						logger.info("fail: " + entry.getValue().getFail());
+					}
 					
 
 				}

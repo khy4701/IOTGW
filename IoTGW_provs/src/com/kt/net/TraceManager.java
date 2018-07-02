@@ -25,8 +25,11 @@ public class TraceManager {
 //	TraceManager.getInstance().printCubicTrace(sb, remoteAddr, apiName, req.getRequestURL().toString(), 
 //	osysCode, tsysCode, msgId, msgType, resCode, resultDtlCode, resultMsg, jsonBody);
 
+//	public void printCubicTrace_req(StringBuffer sb, String remoteAddr, String apiName, String requestUrl, String osysCode,
+//			String tsysCode, String msgId, String msgType, String resCode, String resultDtlCode, String resultMsg, String jsonBody){
 	public void printCubicTrace_req(StringBuffer sb, String remoteAddr, String apiName, String requestUrl, String osysCode,
-			String tsysCode, String msgId, String msgType, String resCode, String resultDtlCode, String resultMsg, String jsonBody){
+			String tsysCode, String msgId, String msgType, String jsonBody){
+
 		
 			sb.append("=============================================");
 			sb.append(System.getProperty("line.separator"));
@@ -36,20 +39,20 @@ public class TraceManager {
 			sb.append(System.getProperty("line.separator"));
 			sb.append("REQUEST URL : " + requestUrl);
 			sb.append(System.getProperty("line.separator"));
-			sb.append("O_SYS_CD : " + osysCode);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("T_SYS_CD : " + tsysCode);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("MSG_ID   : " + msgId);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("MSG_TYPE : " + msgType);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("RESULT_CD : " + resCode);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("RESULT_DTL_CD : " + resultDtlCode);
-			sb.append(System.getProperty("line.separator"));
-			sb.append("RESULT_MSG : " + resultMsg);
-			sb.append(System.getProperty("line.separator"));
+//			sb.append("O_SYS_CD : " + osysCode);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("T_SYS_CD : " + tsysCode);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("MSG_ID   : " + msgId);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("MSG_TYPE : " + msgType);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("RESULT_CD : " + resCode);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("RESULT_DTL_CD : " + resultDtlCode);
+//			sb.append(System.getProperty("line.separator"));
+//			sb.append("RESULT_MSG : " + resultMsg);
+//			sb.append(System.getProperty("line.separator"));
 			sb.append("BODY : " + jsonBody);
 			sb.append(System.getProperty("line.separator"));
 			sb.append("=============================================");
@@ -66,20 +69,20 @@ public class TraceManager {
 		sb.append(System.getProperty("line.separator"));
 		sb.append("STATUS : " + httpResCode);
 		sb.append(System.getProperty("line.separator"));
-		sb.append("O_SYS_CD : " + provMsg.getOsysCode());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("T_SYS_CD : " + provMsg.getTsysCode());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("MSG_ID   : " + provMsg.getMsgId());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("MSG_TYPE : " + provMsg.getMsgType());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("RESULT_CD : " + provMsg.getResultCode());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("RESULT_DTL_CD : " + provMsg.getResultDtlCode());
-		sb.append(System.getProperty("line.separator"));
-		sb.append("RESULT_MSG : " + provMsg.getResultMsg());
-		sb.append(System.getProperty("line.separator"));
+//		sb.append("O_SYS_CD : " + provMsg.getOsysCode());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("T_SYS_CD : " + provMsg.getTsysCode());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("MSG_ID   : " + provMsg.getMsgId());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("MSG_TYPE : " + provMsg.getMsgType());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("RESULT_CD : " + provMsg.getResultCode());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("RESULT_DTL_CD : " + provMsg.getResultDtlCode());
+//		sb.append(System.getProperty("line.separator"));
+//		sb.append("RESULT_MSG : " + provMsg.getResultMsg());
+//		sb.append(System.getProperty("line.separator"));
 		sb.append("BODY : " + jsonBody);
 		sb.append(System.getProperty("line.separator"));
 		sb.append("=============================================");

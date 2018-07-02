@@ -13,9 +13,10 @@ import org.json.JSONObject;
 
 import com.kt.net.CommandManager;
 import com.kt.net.DBMListener;
-import com.kt.restful.constants.IoTProperty;
 import com.kt.restful.model.ApiDefine;
 import com.kt.restful.model.ProvifMsgType;
+
+//igate/mno/api/v1/echo
 
 @Path("/echo")
 public class HealthCheckService implements DBMListener{
@@ -38,14 +39,6 @@ public class HealthCheckService implements DBMListener{
         }
             	
     	boolean allowIpFlag = false;
-    	for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-    		if(allowIp.equals(remoteAddr))
-    		{
-    			allowIpFlag = true;
-    			break;
-    		}
-    	}
-
     	if(!allowIpFlag) {
     		if(CommandManager.getInstance().get_bssAllowIpList().contains(remoteAddr) || CommandManager.getInstance().get_cubicAllowIpList().contains(remoteAddr)){
     			allowIpFlag = true;
@@ -93,7 +86,6 @@ public class HealthCheckService implements DBMListener{
 
 		return Response.status(resultCode).entity(responseJSONObject.toString(indentLevel)).build();
 	}
-		
 	
 	private int receiveReqID = -1;
 	private int rspCode = -1;

@@ -24,7 +24,6 @@ import com.kt.net.DBMConnector;
 import com.kt.net.DBMListener;
 import com.kt.net.DBMManager;
 import com.kt.net.StatisticsManager;
-import com.kt.restful.constants.IoTProperty;
 import com.kt.restful.model.ApiDefine;
 import com.kt.restful.model.ProvifMsgType;
 import com.kt.restful.model.StatisticsModel;
@@ -76,14 +75,6 @@ public class HLRTemplatesService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(ipAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(ipAddress)){
 				allowIpFlag = true;
@@ -285,14 +276,6 @@ public class HLRTemplatesService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(ipAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(ipAddress)){
 				allowIpFlag = true;
@@ -454,14 +437,6 @@ public class HLRTemplatesService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(ipAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(ipAddress)){
 				allowIpFlag = true;

@@ -65,15 +65,6 @@ public class SubscribersImsiByMsisdnService implements DBMListener  {
 		}
 
 		boolean allowIpFlag = false;
-		for(String allowIp : IoTProperty.getPropPath("allow_ip_list").split(",")) {
-			if(allowIp.equals(ipAddress))
-			{
-				allowIpFlag = true;
-				break;
-			}
-		}
-		logger.info("1222222222222222222222222 " + req.getRemoteAddr());
-
 		if(!allowIpFlag) {
 			if(CommandManager.getInstance().get_ccAllowIpList().contains(ipAddress)){
 				allowIpFlag = true;

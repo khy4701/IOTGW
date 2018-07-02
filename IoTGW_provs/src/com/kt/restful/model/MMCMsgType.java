@@ -44,7 +44,7 @@ public class MMCMsgType {
 	
 	private static int APPNAME_LEN = 32;
 	private static int COMMAND_LEN = 32;
-	private static int IMSI_LEN = 40;
+	private static int IMSI_LEN = 120;
 	private static int IP_LEN = 64;
 	private static int JOB_LEN = 8;
 	private static int PORT_LEN = 8;

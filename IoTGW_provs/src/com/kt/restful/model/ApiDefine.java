@@ -66,8 +66,13 @@ public enum ApiDefine {
 	HEALTH_CHECK("HEALTH_CHECK"),
 		
 	/* Callback , Health Check API */
+	SUBS_STS_CHG_NOTI("SUBS_STS_CHG_NOTI"),
 	DOWNLOAD_PROF_CALLBACK("DOWN_PROF_CLBK"),
+	PROF_STS_CHG_CLBK("PROF_STS_CHG_CLBK"),
 	PROF_STS_CHANGE_NOTI("PROF_STS_CHG_NOTI");
+
+	
+	
 	final private String name;
 
 	private ApiDefine(String name) {

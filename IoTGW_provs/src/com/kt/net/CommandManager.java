@@ -15,6 +15,7 @@ import com.kt.restful.constants.LogFlagProperty;
 import com.kt.restful.constants.OverloadControlProperty;
 import com.kt.restful.model.MMCMsgType;
 import com.kt.restful.model.StatisticsModel;
+import com.kt.util.AES256Util;
 
 public class CommandManager implements CommandReceiver{
 	private static Logger logger = LogManager.getLogger(CommandManager.class);
@@ -145,7 +146,7 @@ public class CommandManager implements CommandReceiver{
 		switch (command.toUpperCase()) {
 		case "REG-PROV-TRC" :
 			StringBuffer regTrcSB  = new StringBuffer();
-			if(traceImsiList.size() >= 40) {
+			if(traceImsiList.size() >= 80) {
 				regTrcSB.append("FAIL REASON = TRACE LIST IS FULL");
 				regTrcSB.append(System.getProperty("line.separator"));
 				result = regTrcSB.toString();
@@ -160,9 +161,19 @@ public class CommandManager implements CommandReceiver{
 				CommandConnector.getInstance().sendMessage( new MMCMsgType(curr_appname, command, imsi, ipAddress, jobNo, port, tcpMode) , result);
 				break;
 			} else {
+				
+				regTrcSB.append("TRCKEY = ");				
+				regTrcSB.append(imsi+"\n");
+				
 				traceImsiList.add(imsi);
-				regTrcSB.append("IMSI = ");
-				regTrcSB.append(imsi);
+				String encTrckey = AES256Util.getInstance().AES_Encode(imsi); 
+				if (encTrckey != null){
+					traceImsiList.add(encTrckey);
+					regTrcSB.append("         ");
+					regTrcSB.append(encTrckey+"(" +imsi+")");
+
+				}				
+
 				regTrcSB.append(System.getProperty("line.separator"));
 				result = regTrcSB.toString();
 				CommandConnector.getInstance().sendMessage( new MMCMsgType(curr_appname, command, imsi, ipAddress, jobNo, port, tcpMode) , result);
@@ -171,9 +182,19 @@ public class CommandManager implements CommandReceiver{
 		case "CANC-PROV-TRC" :
 			StringBuffer cancTrcSB  = new StringBuffer();
 			if(traceImsiList.contains(imsi)) {
+				
+				
+				cancTrcSB.append("TRCKEY = ");
+				cancTrcSB.append(imsi+"\n");
 				traceImsiList.remove(imsi);
-				cancTrcSB.append("IMSI = ");
-				cancTrcSB.append(imsi);
+				
+				String encTrckey = AES256Util.getInstance().AES_Encode(imsi); 
+				if (encTrckey != null){
+					traceImsiList.remove(encTrckey);
+					cancTrcSB.append("         ");
+					cancTrcSB.append(encTrckey+"(" +imsi+")");
+				}				
+
 				cancTrcSB.append(System.getProperty("line.separator"));
 				cancTrcSB.append("DELETED");
 				cancTrcSB.append(System.getProperty("line.separator"));
@@ -188,7 +209,7 @@ public class CommandManager implements CommandReceiver{
 			break;
 		case "DIS-PROV-TRC" :
 			StringBuffer disTrcSB  = new StringBuffer();
-			
+			String encData = "";
 			if(traceImsiList.size() == 0) {
 				disTrcSB.append("FAIL REASON = NOT EXIST TRACE INFOMATION");
 				disTrcSB.append(System.getProperty("line.separator"));
@@ -198,7 +219,13 @@ public class CommandManager implements CommandReceiver{
 				disTrcSB.append("--------------------");
 				disTrcSB.append(System.getProperty("line.separator"));
 				for(String imsilist : traceImsiList){
-					disTrcSB.append(imsilist);
+										
+					encData = AES256Util.getInstance().AES_Decode(imsilist);					
+					if (encData == null)
+						disTrcSB.append(imsilist);
+					else
+						disTrcSB.append(imsilist+"("+encData+")");
+					
 					disTrcSB.append(System.getProperty("line.separator"));
 				}
 				disTrcSB.append("--------------------");
